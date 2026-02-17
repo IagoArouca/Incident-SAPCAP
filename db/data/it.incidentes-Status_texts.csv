@@ -1,0 +1,7 @@
+locale,code,name
+pt,OPEN,Aberto
+pt,IN_PROGRESS,Em Andamento
+pt,RESOLVED,Resolvido
+en,OPEN,Open
+en,IN_PROGRESS,In Progress
+en,RESOLVED,Resolved

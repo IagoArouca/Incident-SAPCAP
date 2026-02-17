@@ -1,0 +1,33 @@
+{
+  "name": "it-incident-manager",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "private": true,
+  "dependencies": {
+    "@sap/cds": "^9.7.1"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^1"
+  },
+  "scripts": {
+    "start": "cds run",
+    "watch": "cds watch"
+  },
+  "cds": {
+    "requires": {
+      "auth": {
+        "strategy": "mock",
+        "users": {
+          "joao@empresa.com": {
+            "roles": ["authenticated-user"],
+            "tenant": "t1"
+          },
+          "jose@empresa.com": {
+            "roles": ["authenticated-user", "Admin"],
+            "tenant": "t1"
+          }
+        }
+      }
+    }
+  }
+}

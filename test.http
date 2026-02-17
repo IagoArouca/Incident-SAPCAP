@@ -1,0 +1,49 @@
+GET http://localhost:4004/odata/v4/incident/Status
+Accept-Language: pt
+
+### Criar Incidente Inválido (Deve dar erro)
+POST http://localhost:4004/odata/v4/incident/Incidents
+Content-Type: application/json
+
+{
+    "title": "Erro de Impressora",
+    "description": "Curta",
+    "status_code": "RESOLVED",
+    "priority_code": "LOW"
+}
+
+###
+
+POST http://localhost:4004/odata/v4/incident/Incidents
+Content-Type: application/json
+
+{
+    "title": "Erro de Impressora",
+    "description": "A impressora do setor financeiro parou de funcionar após a queda de energia.",
+    "status_code": "OPEN",
+    "priority_code": "LOW"
+}
+
+### Chamar a Action de Fechamento
+POST http://localhost:4004/odata/v4/incident/Incidents(f1e2d3c4-b5a6-4d7e-8f9g-0h1i2j3k4l5m)/IncidentService.closeIncident
+Content-Type: application/json
+
+{
+    "resolutionText": "O cabo de rede estava desconectado. Foi reconectado e o sistema voltou."
+}
+
+### Teste como João (Não é Admin - Deve dar erro 403 na Action)
+POST http://localhost:4004/odata/v4/incident/Incidents/a1b2c3d4-e5f6-4g7h-8i9j-k1l2m3n4o5p6/IncidentService.closeIncident
+Authorization: Basic joao@empresa.com:Senha123
+Content-Type: application/json
+
+{ "resolutionText": "Tentativa de fechar sem ser admin" }
+
+###
+
+### Teste como Jose (É Admin - Deve Funcionar)
+POST http://localhost:4004/odata/v4/incident/Incidents/a1b2c3d4-e5f6-4g7h-8i9j-k1l2m3n4o5p6/IncidentService.closeIncident
+Authorization: Basic jose@empresa.com:Senha123
+Content-Type: application/json
+
+{ "resolutionText": "Jose fechou com sucesso!" }
