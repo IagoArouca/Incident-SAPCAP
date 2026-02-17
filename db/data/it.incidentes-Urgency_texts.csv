@@ -2,6 +2,6 @@ locale,code,name
 pt,LOW,Baixa
 pt,MEDIUM,Média
 pt,HIGH,Alta
-en,LOW,Baixa
-en,MEDIUM,Média
-en,HIGH,Alta
+en,LOW,Low
+en,MEDIUM,Medium
+en,HIGH,High
