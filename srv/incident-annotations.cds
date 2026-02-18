@@ -3,9 +3,15 @@ using { IncidentService } from './incident-service';
 annotate IncidentService.Incidents with @(
     UI.LineItem: [
         { Value: title, Label: '{i18n>Title}' },
-        { Value: priority_code, Label: '{i18n>Priority}' }, 
+        {   Value: priority_code,
+            Label: '{i18n>Priority}',
+            Criticality: priorityCriticality
+         }, 
         { Value: description, Label: '{i18n>Description}' },
-        { Value: status_code, Label: '{i18n>Status}' }   
+        {   Value: status_code,
+            Label: '{i18n>Status}',
+            Criticality : statusCriticality
+         }   
     ],
 
     UI.HeaderInfo: {
@@ -28,7 +34,9 @@ annotate IncidentService.Incidents with @(
             { Value: title },
             { Value: description },
             { Value: status_code },
-            { Value: priority_code }
+            { Value: priority_code },
+            { Value: createdAt, Label: '{i18n>CreatedAt}' },
+            { Value: createdBy, Label: '{i18n>CreatedBy}' }
         ]
     },
 
@@ -53,3 +61,8 @@ annotate IncidentService.Status with {
 annotate IncidentService.Urgency with {
     code @Common.Text: name @Common.TextArrangement: #TextOnly;
 };
+
+annotate IncidentService.Incidents with {
+    createdAt @readonly;
+    createdBy @readonly;
+}
