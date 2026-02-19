@@ -9,6 +9,7 @@ entity Incidents : cuid, managed {
     description : localized String(1000) @title : '{i18n>Description}';
     status      : Association to Status @title : '{i18n>Status}';
     priority    : Association to Urgency @title: '{i18n>Priority}';
+    comments : Composition of many Comments on comments.incident = $self;
 
 }
 
@@ -20,4 +21,9 @@ entity Status : CodeList {
 entity Urgency : CodeList {
     key code : String(20); 
     name : localized String(100);
+}
+
+entity Comments : cuid, managed {
+    comment  : String;
+    incident : Association to Incidents;
 }
