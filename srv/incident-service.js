@@ -43,15 +43,27 @@ class IncidentService extends cds.ApplicationService {
             return SELECT.one.from(Incidents).where({ ID: incidentId });
         })
 
-        this.after('CREATE', Incidents, async (incident, req) => {
-            if(incident.priority_code === 'HIGH') {
-                await INSERT.into(Comments).entries({
-                    incident_ID: incident.ID,
-                    comment: 'SISTEMA: Este incidente foi classificado como alta prioridade. Atendimento imediato requerido.',
+        this.after(['CREATE', 'UPDATE'], Incidents, async (data, req) => {
+
+            const priority = data.priority_code || req.data.priority_code;
+            const incidentId = data.ID || req.data.ID;
+
+            if(priority === 'HIGH') {
+                
+                const existingComment = await SELECT.one.from(Comments).where({
+                    incident_ID: incidentId,
                     createdBy: 'Sistema de Alerta'
-                })
+                });
+
+                if(!existingComment) {
+                        await INSERT.into(Comments).entries({
+                        incident_ID: incidentId,
+                        comment: 'SISTEMA: Este incidente foi classificado como alta prioridade. Atendimento imediato requerido.',
+                        createdBy: 'Sistema de Alerta'
+                    });
+                }      
             }
-        })
+        });
 
         return super.init();
     }
